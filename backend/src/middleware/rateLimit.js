@@ -14,7 +14,7 @@ const analyzeLimiter= rateLimit({
 
 const authLimiter= rateLimit({
     windowMs: 15* 60 * 1000,
-    limit: 30, // limit each IP to 10 requests per windowMs
+    limit: 30, // limit each IP to 30 requests per windowMs
     standardHeaders: "draft-7",
     legacyHeaders: false,
     keyGenerator: (req,res)=> ipKeyGenerator(req,res),
