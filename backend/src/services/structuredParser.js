@@ -81,6 +81,7 @@ const responseSchema = {
           name: { type: Type.STRING },
           description: { type: Type.STRING },
           tech: { type: Type.ARRAY, items: { type: Type.STRING } },
+          bullets: { type: Type.ARRAY, items: { type: Type.STRING } },
           links: { type: Type.ARRAY, items: linkSchema },
         },
       },
@@ -144,6 +145,7 @@ const validator = z.object({
         name: z.string().default(""),
         description: z.string().default(""),
         tech: z.array(z.string()).default([]),
+        bullets: z.array(z.string()).default([]),
         links: z
           .array(z.object({ label: z.string(), url: z.string() }))
           .default([]),
@@ -164,3 +166,50 @@ const validator = z.object({
   languages: z.array(z.string()).default([]),
   interests: z.array(z.string()).default([]),
 });
+
+function buildPrompt(rawText) {
+  return [
+    "You are a resume parser. The input is text extracted from a PDF - lines may be jumbled or out of natural reading order.",
+    "",
+    "Extract structured data:",
+    '- basics: name, professional title, location, email, phone, social links (LinkedIn / GitHub / portfolio etc.; label like "LinkedIn", full URL)',
+    "- summary: the professional summary paragraph (rejoin if split across lines)",
+    "- experience: jobs most recent first, with company, role, period (preserve original date format), location if available, and bullet points",
+    "- education: degree, school, period, location, optional details",
+    "- skills: flat array of technical skills",
+    "- projects: name, one-sentence description, optional tech tags, bullet points, optional links",
+    "- certifications: name, issuer, year",
+    "- languages: flat array",
+    "- interests: flat array",
+    "",
+    "Rules:",
+    "- Be conservative: omit fields that are not clearly present. Use empty strings/arrays where missing.",
+    "- Do not invent or paraphrase - extract verbatim where possible.",
+    "- Each experience bullet should read as a complete sentence.",
+    "- Preserve original date formats (e.g. 'Jan 2022 - Dec 2023').",
+    "",
+    "RESUME TEXT:",
+    "--------",
+    rawText,
+    "--------",
+  ].join("\n");
+}
+
+const EMPTY = {
+  basics: {
+    name: "",
+    title: "",
+    location: "",
+    email: "",
+    phone: "",
+    links: [],
+  },
+  summary: "",
+  experience: [],
+  education: [],
+  skills: [],
+  projects: [],
+  certifications: [],
+  languages: [],
+  interests: [],
+};
