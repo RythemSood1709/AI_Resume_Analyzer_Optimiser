@@ -33,3 +33,5 @@ async function extractText(buffer) {
         }
     }
 }
+
+module.exports= {extractText};
