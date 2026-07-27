@@ -213,3 +213,37 @@ const EMPTY = {
   languages: [],
   interests: [],
 };
+
+async function parseResume(rawText) {
+  if (!ai || !rawText?.trim()) return EMPTY;
+
+  const prompt = buildPrompt(rawText);
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const result = await ai.models.generateContent({
+        model: env.geminiModel,
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        config: {
+          responseMimeType: "application/json",
+          responseSchema,
+          temperature: 0.1,
+        },
+      });
+
+      const text =
+        typeof result.text === "function" ? result.text() : result.text;
+      if (!text) throw new Error("Empty response");
+      const parsed = JSON.parse(text);
+      return validator.parse(parsed);
+    } catch (err) {
+      if (attempt === 2) {
+        console.error("Structures parse failed:", err.message);
+        return EMPTY;
+      }
+    }
+  }
+  return EMPTY;
+}
+
+module.exports= {parseResume};
