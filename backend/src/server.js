@@ -9,6 +9,7 @@ const { notFound, errorHandler } = require("./middleware/errorHandler");
 
 const healthRouter = require("./routes/health");
 const authRouter = require("./routes/auth");
+const resumeRouter = require("./routes/resumes");
 
 const app = express();
 
@@ -30,6 +31,9 @@ app.use("/api/health", healthRouter);
 
 //auth route
 app.use("/api/auth", authRouter);
+
+//resume route
+app.use("/api/resumes", resumeRouter);
 
 app.use(notFound);
 app.use(errorHandler);

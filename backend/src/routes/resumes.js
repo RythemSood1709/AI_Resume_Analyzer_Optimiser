@@ -6,7 +6,7 @@ const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const { requireAuth } = require("../middleware/auth");
 const { validate } = require("../middleware/validate");
-const { uploadPdf } = require("../middleware/upload");
+const  {uploadPdf}  = require("../middleware/upload");
 
 const Resume = require("../models/Resume");
 const ResumeVersion = require("../models/ResumeVersion");
@@ -19,7 +19,7 @@ const {
 const router = express.Router();
 router.use(requireAuth);
 
-const ObjectIdSchema = z
+const objectIdSchema = z
   .string()
   .refine((v) => mongoose.Types.isValidObjectId(v), { message: "Invalid Id" });
 
@@ -59,42 +59,69 @@ router.post(
       latestVersionNumber: 1,
     });
 
-    const version=await ResumeVersion.create({
-        resumeId: resume._id,
-        versionNumber: 1,
-        label: "V1",
-        rawText: text,
-        parsedSections,
-        sourceType: "upload",
-        parentVersionId: null,
+    const version = await ResumeVersion.create({
+      resumeId: resume._id,
+      versionNumber: 1,
+      label: "V1",
+      rawText: text,
+      parsedSections,
+      sourceType: "upload",
+      parentVersionId: null,
     });
 
-    resume.currentVersionId=version._id;
+    resume.currentVersionId = version._id;
     await resume.save();
 
-    res.status(201).json({resume, version, meta});
+    res.status(201).json({ resume, version, meta });
   }),
 );
 
 router.get(
-    "/",
-    asyncHandler(async (req,res) => {
-        const resumes= await resume.find({userId: req.user._id})
-            .sort({updatedAt: -1})
-            .lean();
-        res.json({resumes});
-    })
+  "/",
+  asyncHandler(async (req, res) => {
+    const resumes = await resume
+      .find({ userId: req.user._id })
+      .sort({ updatedAt: -1 })
+      .lean();
+    res.json({ resumes });
+  }),
 );
 
 router.get(
+  "/:id",
+  validate(idParam, "params"),
+  asyncHandler(async (req, res) => {
+    const resume = await loadOwnedResume(req);
+    const versions = await ResumeVersion.find({ resumeId: resume._id })
+      .sort({ versionNumber: 1 })
+      .select("-rawText")
+      .lean();
+    res.json({ resume, versions });
+  }),
+);
+
+router.get(
+  "/:id/versions/:versionId",
+  validate(
+    z.object({ id: objectIdSchema, versionId: objectIdSchema }),
+    "params",
+  ),
+  asyncHandler(async (req, res) => {
+    const resume = await loadOwnedResume(req);
+    const version = await loadVersion(resume._id, req, params.versionId);
+    res.json({ version });
+  }),
+);
+
+router.delete(
     "/:id",
     validate(idParam, "params"),
     asyncHandler(async (req,res)=> {
-        const resume= await loadOwnedResume(req);
-        const versions=await ResumeVersion.find({resumeId: resume._id})
-            .sort({versionNumber: 1})
-            .select("-rawText")
-            .lean();
-        res.json({resume, versions});
+        const resume = await loadOwnedResume(req);
+        await ResumeVersion.deleteMany({ resumeId: resume._id });
+        await resume.deleteOne();
+        res.json({ok: true});
     })
 );
+
+module.exports= router;

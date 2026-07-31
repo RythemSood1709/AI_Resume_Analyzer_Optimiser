@@ -42,7 +42,7 @@ const responseSchema = {
         links: { type: Type.ARRAY, items: linkSchema },
       },
     },
-    summary: { types: Type.STRING },
+    summary: { type: Type.STRING },
     experience: {
       type: Type.ARRAY,
       items: {
@@ -61,7 +61,7 @@ const responseSchema = {
       type: Type.ARRAY,
       items: {
         type: Type.OBJECT,
-        required: ["degree", "school", "preiod"],
+        required: ["degree", "school", "period"],
         properties: {
           degree: { type: Type.STRING },
           school: { type: Type.STRING },
@@ -235,10 +235,13 @@ async function parseResume(rawText) {
         typeof result.text === "function" ? result.text() : result.text;
       if (!text) throw new Error("Empty response");
       const parsed = JSON.parse(text);
+
+      console.log(parsed);
+
       return validator.parse(parsed);
     } catch (err) {
       if (attempt === 2) {
-        console.error("Structures parse failed:", err.message);
+        console.error("Structured parse failed:", err.message);
         return EMPTY;
       }
     }
@@ -246,4 +249,4 @@ async function parseResume(rawText) {
   return EMPTY;
 }
 
-module.exports= {parseResume};
+module.exports = { parseResume };

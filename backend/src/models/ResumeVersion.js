@@ -60,7 +60,7 @@ const certificationItemSchema= new mongoose.Schema(
 
 const parsedSectionsSchema= new mongoose.Schema(
     {
-        basics: {type: basicsSchema, default: ()=> ({})},
+        basics: {type: basicSchema, default: ()=> ({})},
         summary: {type: String, default: ""},
         experience: {type: [experienceItemSchema], default: []},
         education: {type: [educationItemSchema], default: []},
