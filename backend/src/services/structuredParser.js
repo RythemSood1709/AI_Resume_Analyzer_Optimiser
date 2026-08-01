@@ -236,7 +236,6 @@ async function parseResume(rawText) {
       if (!text) throw new Error("Empty response");
       const parsed = JSON.parse(text);
 
-      console.log(parsed);
 
       return validator.parse(parsed);
     } catch (err) {

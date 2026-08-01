@@ -6,7 +6,7 @@ const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const { requireAuth } = require("../middleware/auth");
 const { validate } = require("../middleware/validate");
-const  {uploadPdf}  = require("../middleware/upload");
+const { uploadPdf } = require("../middleware/upload");
 
 const Resume = require("../models/Resume");
 const ResumeVersion = require("../models/ResumeVersion");
@@ -21,7 +21,7 @@ router.use(requireAuth);
 
 const objectIdSchema = z
   .string()
-  .refine((v) => mongoose.Types.isValidObjectId(v), { message: "Invalid Id" });
+  .refine((v) => mongoose.isValidObjectId(v), { message: "Invalid Id" });
 
 const idParam = z.object({ id: objectIdSchema });
 
@@ -79,8 +79,7 @@ router.post(
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const resumes = await resume
-      .find({ userId: req.user._id })
+    const resumes = await Resume.find({ userId: req.user._id })
       .sort({ updatedAt: -1 })
       .lean();
     res.json({ resumes });
@@ -114,14 +113,14 @@ router.get(
 );
 
 router.delete(
-    "/:id",
-    validate(idParam, "params"),
-    asyncHandler(async (req,res)=> {
-        const resume = await loadOwnedResume(req);
-        await ResumeVersion.deleteMany({ resumeId: resume._id });
-        await resume.deleteOne();
-        res.json({ok: true});
-    })
+  "/:id",
+  validate(idParam, "params"),
+  asyncHandler(async (req, res) => {
+    const resume = await loadOwnedResume(req);
+    await ResumeVersion.deleteMany({ resumeId: resume._id });
+    await resume.deleteOne();
+    res.json({ ok: true });
+  }),
 );
 
-module.exports= router;
+module.exports = router;
