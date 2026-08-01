@@ -45,6 +45,7 @@ const projectItemSchema= new mongoose.Schema(
         description: String,
         tech: [String],
         links: [linkSchema],
+        bullets: [String],
     },
     {_id: false}
 );
