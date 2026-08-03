@@ -146,3 +146,57 @@ function buildPrompt({ rawText, targetRole }) {
     "----------",
   ].join("\n");
 }
+
+async function callGemini(prompt) {
+  const result = await ai.models.generateContent({
+    model: env.geminiModel,
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    config: {
+      responseMimeType: "application/json",
+      responseSchema,
+      temperature: 0.4,
+    },
+  });
+
+  const text = typeof result.text === "function" ? result.text() : result.text;
+  if (!text) throw new Error("Empty Response from Gemini");
+
+  return {
+    text,
+    usage: result.usageMetadata || {},
+  };
+}
+
+async function analyzeResume({ rawText, targetRole }) {
+  if (!ai) {
+    throw new ApiError.internal(
+      "Gemini API key is not configured on the server.",
+    );
+  }
+
+  const prompt = buildPrompt({ rawText, targetRole });
+
+  let lastErr;
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const { text, usage } = await callGemini(prompt);
+      const parsed = JSON.parse(text);
+      const validated = analysisValidator.parse(parsed);
+      return {
+        analysis: validated,
+        model: env.geminiModel,
+        promptTokens: usage.promptTokenCount,
+        responseTokens: usage.candidatesTokenCount,
+      };
+    } catch (err) {
+      lastErr = err;
+      if (attempt === 2) {
+        break;
+      }
+    }
+  }
+  throw new ApiError.internal(
+    `Gemini analysis failed: ${lastErr?.message || "Unknown Error"}`,
+  );
+}
