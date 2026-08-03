@@ -91,4 +91,38 @@ const responseSchema = {
   },
 };
 
-
+const analysisValidator = z.object({
+  atsScore: z.number().min(0).max(100),
+  scoreBreakdown: z.object({
+    keywords: z.number().min(0).max(25),
+    formatting: z.number().min(0).max(25),
+    impact: z.number().min(0).max(25),
+    clarity: z.number().min(0).max(25),
+  }),
+  issues: z
+    .array(
+      z.object({
+        title: z.string(),
+        severity: z.enum(["low", "medium", "high"]),
+        explanation: z.string(),
+        fix: z.string(),
+      }),
+    )
+    .min(1),
+  strengths: z
+    .array(z.object({ title: z.string(), evidence: z.string() }))
+    .min(1),
+  bulletRewrites: z
+    .array(
+      z.object({
+        section: z.string(),
+        original: z.string(),
+        rewritten: z.string(),
+        rationale: z.string(),
+      }),
+    )
+    .default([]),
+  keywordsPresent: z.array(z.string()).default([]),
+  keywordsMissing: z.array(z.string()).default([]),
+  summary: z.string(),
+});
