@@ -126,3 +126,23 @@ const analysisValidator = z.object({
   keywordsMissing: z.array(z.string()).default([]),
   summary: z.string(),
 });
+
+function buildPrompt({ rawText, targetRole }) {
+  return [
+    "You are a senior technical recruiter and ATS expert reviewing a resume.",
+    targetRole
+      ? `Target role: ${targetRole}.`
+      : "No specific target role was provided — assess for the role the candidate appears to be aiming for.",
+    "",
+    "Score the resume from 0-100 based on ATS readiness (keyword match, parseable formatting, quantified impact, clarity).",
+    "Return exactly 5 prioritized issues, 5 standout strengths, and 5-10 weak bullets rewritten to be stronger, quantified, and ATS-friendly.",
+    "Rewrites must preserve the original meaning. Each rewrite needs a one-line rationale.",
+    "Identify keywords clearly present and notable keywords missing for the apparent target role.",
+    "Be specific and evidence-based — cite phrasing from the resume in explanations.",
+    "",
+    "RESUME TEXT:",
+    "----------",
+    rawText,
+    "----------",
+  ].join("\n");
+}
