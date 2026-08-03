@@ -200,3 +200,5 @@ async function analyzeResume({ rawText, targetRole }) {
     `Gemini analysis failed: ${lastErr?.message || "Unknown Error"}`,
   );
 }
+
+module.exports = { analyzeResume };
