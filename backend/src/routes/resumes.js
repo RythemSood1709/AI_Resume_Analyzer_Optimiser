@@ -146,7 +146,7 @@ router.post(
 
     const version = await loadVersion(resume._id, versionId);
 
-    const { analysis, model, promptTokens, reponseTokens } =
+    const { analysis, model, promptTokens, responseTokens } =
       await analyzeResume({
         rawText: version.rawText,
         targetRole: req.body.targetRole,

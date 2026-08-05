@@ -169,9 +169,7 @@ async function callGemini(prompt) {
 
 async function analyzeResume({ rawText, targetRole }) {
   if (!ai) {
-    throw new ApiError.internal(
-      "Gemini API key is not configured on the server.",
-    );
+    throw ApiError.internal("Gemini API key is not configured on the server.");
   }
 
   const prompt = buildPrompt({ rawText, targetRole });
@@ -196,7 +194,7 @@ async function analyzeResume({ rawText, targetRole }) {
       }
     }
   }
-  throw new ApiError.internal(
+  throw ApiError.internal(
     `Gemini analysis failed: ${lastErr?.message || "Unknown Error"}`,
   );
 }

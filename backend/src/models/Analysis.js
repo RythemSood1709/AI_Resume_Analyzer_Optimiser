@@ -98,7 +98,7 @@ const analysisSchema = new mongoose.Schema(
     keywordsPresent: { type: [String], default: [] },
     keywordsMissing: { type: [String], default: [] },
     summary: { type: String, default: "" },
-    model: { type: Sting, required: true },
+    model: { type: String, required: true },
     promptTokens: Number,
     responseTokens: Number,
   },
