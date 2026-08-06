@@ -2,19 +2,26 @@ const express = require("express");
 const { z } = require("zod");
 const mongoose = require("mongoose");
 
+//middlewares
 const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const { requireAuth } = require("../middleware/auth");
 const { validate } = require("../middleware/validate");
 const { uploadPdf } = require("../middleware/upload");
 
+//models
 const Resume = require("../models/Resume");
 const ResumeVersion = require("../models/ResumeVersion");
 
+//analysis services
 const { analyzeLimiter } = require("../middleware/rateLimit");
 const Analysis = require("../models/Analysis");
 const { analyzeResume } = require("../services/geminiService");
 
+//diff services
+const { diffText, summarize } = require("../services/diffService");
+
+//text extraction and parsing services
 const { extractText } = require("../services/pdfService");
 const {
   parseResume: parseStructured,
@@ -207,5 +214,45 @@ router.get(
     res.json({ analysis: analysis || null });
   }),
 );
+
+const rewriteBody = z.object({
+  analysisId: objectIdSchema,
+  rewriteIds: z.array(objectIdSchema).optional(),
+  label: z.string().trim().max(40).optional(),
+});
+
+function applyRewritesToText(rawText, rewrites) {
+  let result = rawText;
+  for (const r of rewrites) {
+    if (!r.original || !r.rewritten) continue;
+
+    const idx = result.indexOf(r.original);
+    if (idx >= 0) {
+      result =
+        result.slice(0, idx) +
+        r.rewritten +
+        result.slice(idx + r.original.length);
+    } else {
+      result += `\n${r.rewritten}`;
+    }
+  }
+  return result;
+}
+
+function patchBulletsInSections(sections, rewrites) {
+  if (!sections) return null;
+  const cloned = JSON.parse(JSON.stringify(sections));
+
+  for (const r of rewrites) {
+    if (!r.original || !r.rewritten) continue;
+    for (const exp of cloned.experience || []) {
+      if (!Array.isArray(exp.bullets)) continue;
+      exp.bullets = exp.bullets.map((b) =>
+        b === r.original ? r.rewritten : b,
+      );
+    }
+  }
+  return cloned;
+}
 
 module.exports = router;
