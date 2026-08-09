@@ -335,4 +335,29 @@ const diffQuery = z.object({
   mode: z.enum(["words", "lines"]).optional(),
 });
 
+router.get(
+  "/:id/diff",
+  validate(idParam, "params"),
+  validate(diffQuery, "query"),
+  asyncHandler(async (req, res) => {
+    const resume = await loadOwnedResume(req);
+    const [fromV, toV] = await Promise.all([
+      loadVersion(resume._id, req.query.from),
+      loadVersion(resume._id, req.query.to),
+    ]);
+
+    const parts = diffText(fromV.rawText, toV.rawText, req.query.mode);
+    res.json({
+      from: {
+        id: fromV._id,
+        label: fromV.label,
+        versionNumber: fromV.versionNumber,
+      },
+      to: { id: toV._id, label: toV.label, versionNumber: toV.versionNumber },
+      parts,
+      stats: summarize(parts),
+    });
+  }),
+);
+
 module.exports = router;
