@@ -215,6 +215,7 @@ router.get(
   }),
 );
 
+//helper function to apply rewrites to a resume version
 const rewriteBody = z.object({
   analysisId: objectIdSchema,
   rewriteIds: z.array(objectIdSchema).optional(),
@@ -254,5 +255,78 @@ function patchBulletsInSections(sections, rewrites) {
   }
   return cloned;
 }
+
+function looksEmpty(sections) {
+  if (!sections) return true;
+  const b = sections.basics || {};
+  const hasIdentity = b.name || b.email || b.title;
+  const hasBody =
+    sections.summary ||
+    sections.experience?.length ||
+    sections.education?.length ||
+    sections.skills?.length;
+  return !hasIdentity && !hasBody;
+}
+
+//rewrite route
+
+router.post(
+  ":id/rewrite",
+  validate(idParam, "params"),
+  validate(rewriteBody),
+  asyncHandler(async (req, res) => {
+    const resume = await loadOwnedResume(req);
+
+    const analysis = await Analysis.findOne({
+      _id: req.body.analysisId,
+      resumeId: resume._id,
+    });
+
+    if (!analysis) throw ApiError.notFound("Analysis not found");
+
+    const baseVersion = await loadVersion(resume._id, analysis.versionId);
+
+    const selected = req.body.rewriteIds?.length
+      ? analysis.bulletRewrites.filter((r) =>
+          req.body.rewriteIds.includes(r._id.toString()),
+        )
+      : analysis.bulletRewrites;
+
+    if (!selected.length) {
+      throw ApiError.badRequest("No rewrites selected to apply");
+    }
+
+    const newRaw = applyRewritesToText(baseVersion.rawText, selected);
+
+    const patchedFromBase = patchBulletsInSections(
+      baseVersion.parsedSections,
+      selected,
+    );
+
+    const reparsed = await parseStructured(newRaw);
+    const finalParsed = looksEmpty(reparsed) ? patchedFromBase : reparsed;
+
+    const nextNumber = resume.latestVersionNumber + 1;
+
+    const newVersion = await ResumeVersion.create({
+      resumeId: resume._id,
+      versionNumber: nextNumber,
+      label: req.body.label?.trim() || `V${nextNumber}`,
+      rawText: newRaw,
+      parsedSections: finalParsed,
+      sourceType: "rewrite",
+      parentVersionId: baseVersion._id,
+    });
+
+    resume.latestVersionNumber = nextNumber;
+    resume.currentVersionId = newVersion._id;
+    await resume.save();
+
+    res.status(201).json({
+      version: newVersion,
+      appliedCount: selected.length,
+    });
+  }),
+);
 
 module.exports = router;
