@@ -329,4 +329,10 @@ router.post(
   }),
 );
 
+const diffQuery = z.object({
+  from: objectIdSchema,
+  to: objectIdSchema,
+  mode: z.enum(["words", "lines"]).optional(),
+});
+
 module.exports = router;
