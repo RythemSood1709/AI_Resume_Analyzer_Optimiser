@@ -227,15 +227,21 @@ function applyRewritesToText(rawText, rewrites) {
   for (const r of rewrites) {
     if (!r.original || !r.rewritten) continue;
 
-    const idx = result.indexOf(r.original);
-    if (idx >= 0) {
-      result =
-        result.slice(0, idx) +
-        r.rewritten +
-        result.slice(idx + r.original.length);
-    } else {
+    const pattern = r.original
+      .trim()
+      .split(/\s+/)
+      .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .join("\\s+");
+
+    const match = result.match(new RegExp(pattern));
+    if (!match || match.index == null) {
       result += `\n${r.rewritten}`;
+      continue;
     }
+
+    const start = match.index;
+    const end = start + match[0].length;
+    result = result.slice(0, start) + r.rewritten + result.slice(end);
   }
   return result;
 }
@@ -271,7 +277,7 @@ function looksEmpty(sections) {
 //rewrite route
 
 router.post(
-  ":id/rewrite",
+  "/:id/rewrite",
   validate(idParam, "params"),
   validate(rewriteBody),
   asyncHandler(async (req, res) => {
