@@ -64,7 +64,6 @@ router.get(
 
     const bestResume = resumeMap.get(bestEntry.resumeId.toString());
 
-
     //score trend (all analyses chronologically)
     const scoreTrend = analyses.map((a) => ({
       at: a.createdAt,
@@ -73,7 +72,7 @@ router.get(
       resumeTitle: resumeMap.get(a.resumeId.toString())?.title || "Resume",
     }));
 
-    //issue frequency 
+    //issue frequency
     const allIssues = analyses.flatMap((a) => a.issues || []);
 
     const topIssues = topN(
@@ -85,5 +84,23 @@ router.get(
       count: row.count,
       severity: row.sample?.severity || "medium",
     }));
+
+    //keyword frequency
+    const allMissing = analyses.flatMap((a) => a.keywordsMissing || []);
+    const allPresent = analyses.flatMap((a) => a.keywordsPresent || []);
+
+    const topMissing = topN(allMissing, (k) => k.toLowerCase(), 12).map(
+      (r) => ({
+        keyword: r.sample,
+        count: r.count,
+      }),
+    );
+
+    const topPresent = topN(allPresent, (k) => k.toLowerCase(), 12).map(
+      (r) => ({
+        keyword: r.sample,
+        count: r.count,
+      }),
+    );
   }),
 );
