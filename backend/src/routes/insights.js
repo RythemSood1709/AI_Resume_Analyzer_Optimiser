@@ -102,5 +102,48 @@ router.get(
         count: r.count,
       }),
     );
+
+    //per-resume performance
+    const resumePerformance = resumes
+      .map((r) => {
+        const ras = analyses.filter(
+          (a) => a.resumeId.toString() === r._id.toString(),
+        );
+
+        if (!ras.length) return null;
+        const latest = ras[ras.length - 1];
+        const best = ras.reduce((b, a) => (a.atsScore > b.atsScore ? a : b));
+
+        const first = ras[0];
+        return {
+          resumeId: r._id,
+          title: r.title,
+          analysesCount: ras.length,
+          latestScore: latest.atsScore,
+          bestScore: best.atsScore,
+          improvement: latest.atsScore - first.atsScore,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.latestScore - a.latestScore);
+
+    res.json({
+        empty: false,
+        totalAnalyses: analyses.length,
+        averageScore,
+        bestScore: {
+            value: bestEntry.atsScore,
+            resumeId: bestEntry.resumeId,
+            resumeTitle: bestResume?.title || "Resume",
+            at: bestEntry.createdAt,
+        },
+        scoreTrend,
+        topIssues,
+        topMissingKeywords: topMissing,
+        topPresentKeywords: topPresent,
+        resumePerformance,
+    })
   }),
 );
+
+module.exports= router;
