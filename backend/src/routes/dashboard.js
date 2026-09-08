@@ -72,7 +72,7 @@ router.get(
         currentVersionId: latestResumeMeta.currentVersionId,
       };
 
-      scoreSeries = versionWithScores
+      scoreSeries = versionsWithScores
         .filter((v) => v.score !== null)
         .map((v) => ({
           label: v.label,

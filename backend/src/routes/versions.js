@@ -26,7 +26,7 @@ router.get(
       .sort({ createdAt: -1 })
       .lean();
 
-    const analysisIds = versions.map((v) => v.latestAnalysisid).filter(Boolean);
+    const analysisIds = versions.map((v) => v.latestAnalysisId).filter(Boolean);
 
     const analyses = analysisIds.length
       ? await Analysis.find({ _id: { $in: analysisIds } })
