@@ -18,74 +18,74 @@ const C = {
 
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 56,
-    paddingBottom: 56,
-    paddingHorizontal: 56,
-    fontSize: 10.25,
+    paddingTop: 34,
+    paddingBottom: 30,
+    paddingHorizontal: 40,
+    fontSize: 11,
     color: C.ink,
     fontFamily: "Helvetica",
     backgroundColor: C.bg,
-    lineHeight: 1.5,
+    lineHeight: 1.2,
   },
 
   // header
   headerWrap: {
-    marginBottom: 22,
+    marginBottom: 10,
   },
   name: {
-    fontSize: 26,
+    fontSize: 22,
     fontFamily: "Helvetica-Bold",
     letterSpacing: -0.6,
     color: C.ink,
     lineHeight: 1.15,
-    marginBottom: 6,
+    marginBottom: 3,
   },
   title: {
-    fontSize: 11.5,
+    fontSize: 10.5,
     fontFamily: "Helvetica",
     color: C.accent,
     letterSpacing: 0.4,
     lineHeight: 1.3,
-    marginBottom: 12,
+    marginBottom: 6,
   },
   contactRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    fontSize: 9.5,
+    fontSize: 8.8,
     color: C.inkMuted,
     marginTop: 2,
   },
   contactItem: {
-    marginRight: 14,
-    marginBottom: 3,
+    marginRight: 10,
+    marginBottom: 1,
   },
   contactSep: {
     color: C.hairline,
-    marginRight: 14,
+    marginRight: 10,
   },
   link: {
     color: C.accent,
     textDecoration: "none",
   },
   rule: {
-    marginTop: 14,
+    marginTop: 7,
     height: 1,
     backgroundColor: C.hairline,
   },
 
   // sections
   section: {
-    marginTop: 18,
+    marginTop: 9,
   },
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 4,
   },
   sectionHeaderText: {
-    fontSize: 9,
+    fontSize: 8.6,
     fontFamily: "Helvetica-Bold",
-    letterSpacing: 1.6,
+    letterSpacing: 1.2,
     color: C.accent,
     textTransform: "uppercase",
   },
@@ -93,19 +93,19 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 0.6,
     backgroundColor: C.hairline,
-    marginLeft: 10,
+    marginLeft: 7,
   },
 
   // summary
   summary: {
-    fontSize: 10.25,
-    lineHeight: 1.55,
+    fontSize: 9.6,
+    lineHeight: 1.2,
     color: C.ink,
   },
 
   // experience
   expItem: {
-    marginBottom: 14,
+    marginBottom: 7,
   },
   expHeader: {
     flexDirection: "row",
@@ -114,19 +114,19 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   expRole: {
-    fontSize: 11,
+    fontSize: 10.1,
     fontFamily: "Helvetica-Bold",
     color: C.ink,
   },
   expPeriod: {
-    fontSize: 9.5,
+    fontSize: 8.8,
     color: C.inkMuted,
     fontFamily: "Helvetica",
   },
   expCompanyLine: {
-    fontSize: 10,
+    fontSize: 9.3,
     color: C.inkMuted,
-    marginBottom: 5,
+    marginBottom: 2,
   },
   expCompany: {
     fontFamily: "Helvetica-Bold",
@@ -134,27 +134,27 @@ const styles = StyleSheet.create({
   },
   bullet: {
     flexDirection: "row",
-    marginBottom: 3,
-    paddingLeft: 2,
+    marginBottom: 1.5,
+    paddingLeft: 1,
   },
   bulletDot: {
-    width: 2.5,
-    height: 2.5,
-    borderRadius: 1.25,
+    width: 2,
+    height: 2,
+    borderRadius: 1,
     backgroundColor: C.accent,
-    marginRight: 9,
-    marginTop: 6,
+    marginRight: 6,
+    marginTop: 4.5,
   },
   bulletText: {
     flex: 1,
-    fontSize: 10.25,
-    lineHeight: 1.5,
+    fontSize: 9.5,
+    lineHeight: 1.2,
     color: C.ink,
   },
 
   // education
   eduItem: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   eduRow: {
     flexDirection: "row",
@@ -162,23 +162,23 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
   },
   eduDegree: {
-    fontSize: 10.5,
+    fontSize: 9.7,
     fontFamily: "Helvetica-Bold",
     color: C.ink,
   },
   eduMeta: {
-    fontSize: 9.5,
+    fontSize: 8.8,
     color: C.inkMuted,
   },
   eduSchool: {
-    fontSize: 10,
+    fontSize: 9.3,
     color: C.accent,
     marginTop: 1,
   },
 
   // projects
   projItem: {
-    marginBottom: 10,
+    marginBottom: 6,
   },
   projHeader: {
     flexDirection: "row",
@@ -186,29 +186,29 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   projName: {
-    fontSize: 10.75,
+    fontSize: 10.1,
     fontFamily: "Helvetica-Bold",
     color: C.ink,
-    marginRight: 8,
+    marginRight: 6,
   },
   projTech: {
-    fontSize: 9.5,
+    fontSize: 8.8,
     color: C.accent,
   },
   projDesc: {
-    fontSize: 10.25,
+    fontSize: 9.5,
     color: C.ink,
-    lineHeight: 1.5,
+    lineHeight: 1.2,
   },
   projLinks: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 3,
+    marginTop: 1,
   },
   projLink: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: C.accent,
-    marginRight: 10,
+    marginRight: 8,
     textDecoration: "none",
   },
 
@@ -218,14 +218,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   skillChip: {
-    fontSize: 9.5,
-    backgroundColor: C.accentSoft,
-    color: C.accent,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 999,
-    marginRight: 5,
-    marginBottom: 5,
+    fontSize: 9,
+    color: C.ink,
+    marginRight: 7,
+    marginBottom: 2,
   },
 
   // certifications
@@ -233,22 +229,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "baseline",
-    marginBottom: 5,
+    marginBottom: 2,
   },
   certName: {
-    fontSize: 10.25,
+    fontSize: 9.5,
     fontFamily: "Helvetica-Bold",
     color: C.ink,
   },
   certMeta: {
-    fontSize: 9.5,
+    fontSize: 8.8,
     color: C.inkMuted,
   },
 
   // two-column tail (languages + interests)
   twoCol: {
     flexDirection: "row",
-    gap: 24,
+    gap: 16,
   },
   colHalf: {
     flex: 1,
@@ -256,26 +252,26 @@ const styles = StyleSheet.create({
   pillLine: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 4,
+    marginTop: 2,
   },
   pill: {
-    fontSize: 9.75,
+    fontSize: 9,
     color: C.ink,
-    marginRight: 10,
-    marginBottom: 3,
+    marginRight: 8,
+    marginBottom: 1,
   },
 
   // footer
   footer: {
     position: "absolute",
-    bottom: 22,
-    left: 56,
-    right: 56,
+    bottom: 12,
+    left: 40,
+    right: 40,
     flexDirection: "row",
     justifyContent: "space-between",
-    fontSize: 8.25,
+    fontSize: 7.5,
     color: C.inkMuted,
-    paddingTop: 8,
+    paddingTop: 4,
     borderTopWidth: 0.6,
     borderTopColor: C.hairline,
   },
@@ -367,7 +363,7 @@ export function ResumeDocument({ user, version, title }) {
           <View style={styles.section}>
             <SectionHeader>Experience</SectionHeader>
             {p.experience.map((exp, i) => (
-              <View key={i} style={styles.expItem} wrap={false}>
+              <View key={i} style={styles.expItem}>
                 <View style={styles.expHeader}>
                   <Text style={styles.expRole}>{exp.role || "Role"}</Text>
                   {exp.period ? (
@@ -396,7 +392,7 @@ export function ResumeDocument({ user, version, title }) {
           <View style={styles.section}>
             <SectionHeader>Projects</SectionHeader>
             {p.projects.map((proj, i) => (
-              <View key={i} style={styles.projItem} wrap={false}>
+              <View key={i} style={styles.projItem}>
                 <View style={styles.projHeader}>
                   <Text style={styles.projName}>{proj.name}</Text>
                   {proj.tech?.length ? (
@@ -406,6 +402,9 @@ export function ResumeDocument({ user, version, title }) {
                 {proj.description ? (
                   <Text style={styles.projDesc}>{proj.description}</Text>
                 ) : null}
+                {(proj.bullets || []).map((bullet, j) => (
+                  <Bullet key={j}>{bullet}</Bullet>
+                ))}
                 {proj.links?.length ? (
                   <View style={styles.projLinks}>
                     {proj.links.map((l, j) => (
@@ -425,7 +424,7 @@ export function ResumeDocument({ user, version, title }) {
           <View style={styles.section}>
             <SectionHeader>Education</SectionHeader>
             {p.education.map((edu, i) => (
-              <View key={i} style={styles.eduItem} wrap={false}>
+              <View key={i} style={styles.eduItem}>
                 <View style={styles.eduRow}>
                   <Text style={styles.eduDegree}>{edu.degree}</Text>
                   {edu.period ? (
@@ -465,7 +464,7 @@ export function ResumeDocument({ user, version, title }) {
           <View style={styles.section}>
             <SectionHeader>Certifications</SectionHeader>
             {p.certifications.map((c, i) => (
-              <View key={i} style={styles.certItem} wrap={false}>
+              <View key={i} style={styles.certItem}>
                 <Text>
                   <Text style={styles.certName}>{c.name}</Text>
                   {c.issuer ? (
@@ -507,15 +506,6 @@ export function ResumeDocument({ user, version, title }) {
             )}
           </View>
         )}
-
-        <View style={styles.footer} fixed>
-          <Text>{displayName}</Text>
-          <Text
-            render={({ pageNumber, totalPages }) =>
-              `${pageNumber} / ${totalPages}`
-            }
-          />
-        </View>
       </Page>
     </Document>
   );

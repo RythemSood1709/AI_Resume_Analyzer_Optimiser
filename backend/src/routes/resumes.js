@@ -118,7 +118,7 @@ router.get(
   ),
   asyncHandler(async (req, res) => {
     const resume = await loadOwnedResume(req);
-    const version = await loadVersion(resume._id, req, params.versionId);
+    const version = await loadVersion(resume._id, req.params.versionId);
     res.json({ version });
   }),
 );
@@ -129,7 +129,7 @@ router.delete(
   asyncHandler(async (req, res) => {
     const resume = await loadOwnedResume(req);
     await ResumeVersion.deleteMany({ resumeId: resume._id });
-    await analysis.deleteMany({ resumeId: resume._id });
+    await Analysis.deleteMany({ resumeId: resume._id });
     await resume.deleteOne();
     res.json({ ok: true });
   }),
