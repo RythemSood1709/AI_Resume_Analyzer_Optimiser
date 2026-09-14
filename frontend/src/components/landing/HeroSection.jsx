@@ -20,7 +20,7 @@ export function HeroSection() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.06 }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/8 border border-white/10 backdrop-blur-md"
             >
               <Sparkles size={12} className="text-[#B6CFC0]" />
@@ -58,8 +58,9 @@ export function HeroSection() {
               transition={{ duration: 0.7, delay: 0.15 }}
               className="text-white/65 text-base sm:text-lg lg:text-[19px] mt-6 max-w-[540px] leading-relaxed"
             >
-              Upload your resume. Get an instant ATS score, fixable issues, and AI-rewritten bullets
-              that actually sound like you — built for engineers, by engineers.
+              Upload your resume. Get an instant ATS score, fixable issues, and
+              AI-rewritten bullets that actually sound like you — built for
+              engineers, by engineers.
             </motion.p>
 
             <motion.div
@@ -84,7 +85,10 @@ export function HeroSection() {
                   }}
                 />
                 <span className="relative">Upload your resume</span>
-                <ArrowRight size={15} className="relative group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight
+                  size={15}
+                  className="relative group-hover:translate-x-0.5 transition-transform"
+                />
               </Link>
 
               <a
@@ -109,10 +113,6 @@ export function HeroSection() {
               <span className="inline-flex items-center gap-1.5">
                 <span className="h-1 w-1 rounded-full bg-white/30" />
                 Free ATS analysis
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-1 w-1 rounded-full bg-white/30" />
-                47,300+ resumes analyzed
               </span>
             </motion.div>
           </div>

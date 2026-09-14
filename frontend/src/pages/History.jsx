@@ -39,8 +39,7 @@ function dayKey(date) {
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
 
-  const isSameDay = (a, b) =>
-    a.toDateString() === b.toDateString();
+  const isSameDay = (a, b) => a.toDateString() === b.toDateString();
 
   if (isSameDay(d, today)) return "Today";
   if (isSameDay(d, yesterday)) return "Yesterday";
@@ -94,7 +93,7 @@ export default function History() {
         description="Everything you've done across your resumes, in time order."
       />
 
-      <div className="inline-flex items-center gap-1 bg-[var(--surface)] border border-[var(--border)] p-1 rounded-full shadow-card">
+      <div className="grid w-full grid-cols-2 gap-1 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-1 shadow-card sm:inline-flex sm:w-auto sm:grid-cols-none sm:rounded-full">
         {FILTERS.map((f) => {
           const Icon = f.icon;
           const count = totals[f.key] ?? events.length;
@@ -104,10 +103,10 @@ export default function History() {
               key={f.key}
               onClick={() => setFilter(f.key)}
               className={cn(
-                "h-9 px-3.5 text-xs font-medium rounded-full transition-colors inline-flex items-center gap-1.5",
+                "h-9 min-w-0 justify-center px-2 text-xs font-medium rounded-full transition-colors inline-flex items-center gap-1.5 sm:px-3.5",
                 isActive
                   ? "bg-[var(--ink)] text-[var(--bg)]"
-                  : "text-[var(--ink-muted)] hover:text-[var(--ink)]"
+                  : "text-[var(--ink-muted)] hover:text-[var(--ink)]",
               )}
             >
               <Icon size={13} />
@@ -117,7 +116,7 @@ export default function History() {
                   "tabular text-[10px] px-1.5 py-0.5 rounded-full",
                   isActive
                     ? "bg-white/15 text-[var(--bg)]"
-                    : "bg-[var(--surface-2)] text-[var(--ink-muted)]"
+                    : "bg-[var(--surface-2)] text-[var(--ink-muted)]",
                 )}
               >
                 {count}
@@ -161,7 +160,7 @@ export default function History() {
                       }
                       className={cn(
                         "w-full text-left flex items-start gap-3 px-5 py-3.5 hover:bg-[var(--surface-2)] transition-colors",
-                        idx > 0 && "border-t border-[var(--border)]"
+                        idx > 0 && "border-t border-[var(--border)]",
                       )}
                     >
                       <div className="h-9 w-9 shrink-0 rounded-xl bg-[var(--surface-2)] flex items-center justify-center text-[var(--ink-muted)]">
@@ -176,7 +175,9 @@ export default function History() {
                         </div>
                       </div>
                       <div className="text-right shrink-0">
-                        <Badge tone={TONES[e.type] || "neutral"}>{e.label}</Badge>
+                        <Badge tone={TONES[e.type] || "neutral"}>
+                          {e.label}
+                        </Badge>
                         <div className="text-[10px] text-[var(--ink-muted)] mt-1">
                           {relativeTime(e.at)}
                         </div>

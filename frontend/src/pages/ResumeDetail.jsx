@@ -134,13 +134,18 @@ export default function ResumeDetail() {
             : ""
         }
         actions={
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" onClick={() => nav("/resumes")}>
+          <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
+            <Button
+              variant="ghost"
+              onClick={() => nav("/resumes")}
+              className="w-full sm:w-auto"
+            >
               <ArrowLeft size={14} /> All resumes
             </Button>
             <Button
               variant="outline"
               onClick={() => nav(`/resumes/${id}/export`)}
+              className="w-full sm:w-auto"
             >
               <Download size={14} /> Export PDF
             </Button>

@@ -85,8 +85,10 @@ export function FeaturesSection() {
         eyebrow="Features"
         title={
           <>
-            Everything your resume
-            <br className="hidden sm:block" /> needs to{" "}
+            <span className="text-black/80 ">
+              Everything your resume
+              <br className="hidden sm:block" /> needs to{" "}
+            </span>
             <span
               style={{
                 backgroundImage:
@@ -141,7 +143,7 @@ export function FeaturesSection() {
             <div className="relative p-5 sm:p-6">
               <div className="flex items-start gap-3">
                 <div
-                  className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-[1.06] transition-transform duration-300 text-[var(--accent-strong)]"
+                  className="h-10 w-10 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-[1.06] transition-transform duration-300 text-(--accent-strong)"
                   style={{
                     background:
                       "linear-gradient(135deg, #EEF5EF 0%, #D9E7DD 100%)",
@@ -152,7 +154,7 @@ export function FeaturesSection() {
                   <f.icon size={17} strokeWidth={2.25} />
                 </div>
                 <div>
-                  <h3 className="font-display text-[17px] font-semibold tracking-tight text-[var(--ink)]">
+                  <h3 className="font-display text-[17px] font-semibold tracking-tight text-black/80">
                     {f.title}
                   </h3>
                   <p className="text-[13px] text-[var(--ink-muted)] mt-1 leading-relaxed">

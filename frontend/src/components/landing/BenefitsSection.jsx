@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  PhoneCall,
-  ShieldCheck,
-  Zap,
-  Search,
-  Sparkles,
-} from "lucide-react";
+import { PhoneCall, ShieldCheck, Zap, Search, Sparkles } from "lucide-react";
 import { SectionHeader } from "./FeaturesSection";
 
 const BENEFITS = [
@@ -44,7 +38,11 @@ export function BenefitsSection() {
     >
       <SectionHeader
         eyebrow="Outcomes"
-        title={<>The point isn't a better resume. It's a better offer.</>}
+        title={
+          <span className="text-black/70">
+            The point isn't a better resume. It's a better offer.
+          </span>
+        }
         sub="What our users actually report after their second analysis."
       />
 
@@ -57,7 +55,11 @@ export function BenefitsSection() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5, delay: i * 0.05 }}
             className={`rounded-[22px] bg-[var(--surface)] border border-[var(--border)] shadow-card hover:shadow-hover transition-all p-5 sm:p-6 ${
-              i === 0 ? "lg:col-span-3" : i === 1 ? "lg:col-span-3" : "lg:col-span-2"
+              i === 0
+                ? "lg:col-span-3"
+                : i === 1
+                  ? "lg:col-span-3"
+                  : "lg:col-span-2"
             }`}
           >
             <div className="h-10 w-10 rounded-2xl bg-[var(--accent-soft)] text-[var(--accent-strong)] flex items-center justify-center mb-4">

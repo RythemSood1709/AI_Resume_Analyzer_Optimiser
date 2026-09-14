@@ -5,7 +5,7 @@ import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { DashboardPreviewSection } from "@/components/landing/DashboardPreviewSection";
 import { BenefitsSection } from "@/components/landing/BenefitsSection";
-import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
+// import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { CTASection } from "@/components/landing/CTASection";
 import { Footer } from "@/components/landing/Footer";
 
@@ -28,7 +28,7 @@ export default function Landing() {
         <HowItWorks />
         <DashboardPreviewSection />
         <BenefitsSection />
-        <TestimonialsSection />
+        {/* <TestimonialsSection /> */}
         <CTASection />
       </main>
       <Footer />

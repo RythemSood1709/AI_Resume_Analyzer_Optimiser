@@ -7,6 +7,7 @@ import {
   History,
   Settings,
   LogOut,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
@@ -31,13 +32,14 @@ const LABEL_BASE =
   "transition-[opacity,transform] duration-200 ease-out " +
   "group-hover/sidebar:opacity-100 group-hover/sidebar:translate-x-0 group-hover/sidebar:delay-100";
 
-function NavItem({ to, icon: Icon, label }) {
+function NavItem({ to, icon: Icon, label, open }) {
   return (
     <NavLink to={to} title={label} className="block">
       {({ isActive }) => (
         <div
           className={cn(
             ROW_BASE,
+            open && "w-full",
             isActive
               ? "bg-[var(--ink)] text-[var(--bg)] shadow-card"
               : "text-[var(--ink-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--ink)]",
@@ -46,27 +48,32 @@ function NavItem({ to, icon: Icon, label }) {
           <span className="h-11 w-11 flex items-center justify-center shrink-0">
             <Icon size={18} strokeWidth={2} />
           </span>
-          <span className={LABEL_BASE}>{label}</span>
+          <span className={cn(LABEL_BASE, open && "opacity-100 translate-x-0")}>
+            {label}
+          </span>
         </div>
       )}
     </NavLink>
   );
 }
 
-function ActionRow({ icon: Icon, label, onClick, to }) {
+function ActionRow({ icon: Icon, label, onClick, to, open }) {
   const inner = (isActive) => (
     <div
       className={cn(
         ROW_BASE,
+        open && "w-full",
         isActive
           ? "bg-[var(--ink)] text-[var(--bg)] shadow-card"
-          : "text-[var(--ink-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--ink)]"
+          : "text-[var(--ink-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--ink)]",
       )}
     >
       <span className="h-11 w-11 flex items-center justify-center shrink-0">
         <Icon size={18} />
       </span>
-      <span className={LABEL_BASE}>{label}</span>
+      <span className={cn(LABEL_BASE, open && "opacity-100 translate-x-0")}>
+        {label}
+      </span>
     </div>
   );
 
@@ -85,7 +92,7 @@ function ActionRow({ icon: Icon, label, onClick, to }) {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ open = false, onClose }) {
   const { user, logout } = useAuth();
   const displayName = user?.name || "Account";
   const displayEmail = user?.email || "";
@@ -93,49 +100,66 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "group/sidebar hidden md:flex shrink-0 h-[calc(100vh-32px)] sticky top-4 ml-4",
+        "group/sidebar shrink-0 h-[calc(100vh-32px)] sticky top-4 ml-4",
         "flex-col items-center justify-between py-5 rounded-3xl",
         "bg-[var(--surface)] border border-[var(--border)] shadow-card overflow-hidden",
         "w-[88px] hover:w-[248px]",
         "transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        open
+          ? "fixed inset-y-4 left-3 z-50 flex w-[min(320px,calc(100vw-24px))] ml-0 md:sticky md:inset-auto md:z-auto md:ml-4 md:w-[88px]"
+          : "hidden md:flex",
       )}
     >
       <div className="flex flex-col items-center gap-6 w-full">
         <div
           className={cn(
-            "flex items-center h-14 w-14 group-hover/sidebar:w-[200px]",
-            "transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            "flex items-center h-14 w-full px-4 group-hover/sidebar:w-[200px]",
+            "transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           )}
         >
-          <div className="h-12 w-12 flex items-center justify-center shrink-0">
+          <div className="h-12 w-12 ml-1 flex items-center justify-center shrink-0">
             <AILogo />
           </div>
           <span
             className={cn(
               "ml-2 font-display text-base font-semibold text-[var(--ink)] whitespace-nowrap",
-              "opacity-0 -translate-x-1",
+              open ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1",
               "transition-[opacity,transform] duration-200 ease-out",
               "group-hover/sidebar:opacity-100 group-hover/sidebar:translate-x-0 group-hover/sidebar:delay-100",
             )}
           >
             Roaster
           </span>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close navigation"
+            className="ml-auto flex h-9 w-9 items-center justify-center rounded-xl text-[var(--ink-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--ink)] md:hidden"
+          >
+            <X size={18} />
+          </button>
         </div>
 
-        <nav className="flex flex-col items-center gap-1.5">
+        <nav className="flex w-full flex-col items-stretch gap-1.5 px-4 md:w-auto md:items-center md:px-0">
           {NAV.map((item) => (
-            <NavItem key={item.to} {...item} />
+            <NavItem key={item.to} {...item} open={open} />
           ))}
         </nav>
       </div>
 
-      <div className="flex flex-col items-center gap-2 w-full">
-        <ActionRow icon={Settings} label="Settings" to="/settings" />
-        <ActionRow icon={LogOut} label="Log out" onClick={logout} />
+      <div className="flex w-full flex-col items-stretch gap-2 px-4 md:items-center md:px-0">
+        <ActionRow
+          icon={Settings}
+          label="Settings"
+          to="/settings"
+          open={open}
+        />
+        <ActionRow icon={LogOut} label="Log out" onClick={logout} open={open} />
 
         <div
           className={cn(
             "flex items-center h-12 mt-1 w-10 group-hover/sidebar:w-[200px] overflow-hidden",
+            open && "w-full",
             "transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           )}
         >
@@ -145,7 +169,7 @@ export function Sidebar() {
           <div
             className={cn(
               "ml-3 min-w-0 flex-1",
-              "opacity-0 -translate-x-1",
+              open ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1",
               "transition-[opacity,transform] duration-200 ease-out",
               "group-hover/sidebar:opacity-100 group-hover/sidebar:translate-x-0 group-hover/sidebar:delay-100",
             )}

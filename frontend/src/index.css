@@ -46,12 +46,12 @@
 }
 
 [data-theme="dark"] {
-  --bg: #0f1115;
+  --bg: #191b20;
   --surface: #16181d;
   --surface-2: #1b1e24;
   --border: rgba(255, 255, 255, 0.06);
-  --ink: #f2f2ee;
-  --ink-muted: #9aa0a6;
+  --ink: #bec7c1;
+  --ink-muted: #7f8480;
   --accent: #8fb39c;
   --accent-strong: #b6cfc0;
   --accent-soft: rgba(143, 179, 156, 0.12);

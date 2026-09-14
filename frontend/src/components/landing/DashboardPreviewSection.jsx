@@ -23,7 +23,11 @@ export function DashboardPreviewSection() {
     >
       <SectionHeader
         eyebrow="Inside the product"
-        title={<>Every metric you'd ask for. None you wouldn't.</>}
+        title={
+          <span className="text-black/70">
+            Every metric you'd ask for. None you wouldn't.
+          </span>
+        }
         sub="A real glimpse at the dashboard you'll be using in two minutes."
       />
 
@@ -107,14 +111,20 @@ export function DashboardPreviewSection() {
               <div key={b.label} className="mb-3 last:mb-0">
                 <div className="flex justify-between text-[11px] text-white/55 mb-1">
                   <span>{b.label}</span>
-                  <span className="tabular text-white font-semibold">{b.value}</span>
+                  <span className="tabular text-white font-semibold">
+                    {b.value}
+                  </span>
                 </div>
                 <div className="h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${b.value}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.9, delay: 0.1 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{
+                      duration: 0.9,
+                      delay: 0.1 + i * 0.05,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     className="h-full rounded-full"
                     style={{
                       background:
@@ -159,7 +169,8 @@ export function DashboardPreviewSection() {
                   Rewritten
                 </div>
                 <div className="text-[12.5px] text-white leading-snug">
-                  Shipped 4 React dashboards adopted by 12k users — cut load time 38%.
+                  Shipped 4 React dashboards adopted by 12k users — cut load
+                  time 38%.
                 </div>
               </div>
             </div>
@@ -175,14 +186,16 @@ export function DashboardPreviewSection() {
                     Issues
                   </span>
                 </div>
-                {["Weak verbs", "Missing keywords", "Inconsistent dates"].map((s) => (
-                  <div
-                    key={s}
-                    className="text-[11.5px] text-white/65 py-1 border-b border-white/[0.04] last:border-0"
-                  >
-                    {s}
-                  </div>
-                ))}
+                {["Weak verbs", "Missing keywords", "Inconsistent dates"].map(
+                  (s) => (
+                    <div
+                      key={s}
+                      className="text-[11.5px] text-white/65 py-1 border-b border-white/[0.04] last:border-0"
+                    >
+                      {s}
+                    </div>
+                  ),
+                )}
               </div>
               <div>
                 <div className="flex items-center gap-1.5 text-[#8FB39C] mb-2">
@@ -191,16 +204,18 @@ export function DashboardPreviewSection() {
                     Strengths
                   </span>
                 </div>
-                {["Quantified outcomes", "Clean structure", "Strong action verbs"].map(
-                  (s) => (
-                    <div
-                      key={s}
-                      className="text-[11.5px] text-white/65 py-1 border-b border-white/[0.04] last:border-0"
-                    >
-                      {s}
-                    </div>
-                  )
-                )}
+                {[
+                  "Quantified outcomes",
+                  "Clean structure",
+                  "Strong action verbs",
+                ].map((s) => (
+                  <div
+                    key={s}
+                    className="text-[11.5px] text-white/65 py-1 border-b border-white/[0.04] last:border-0"
+                  >
+                    {s}
+                  </div>
+                ))}
               </div>
             </div>
           </DarkCard>
@@ -220,7 +235,15 @@ function DarkCard({ className = "", children }) {
   );
 }
 
-function KpiCard({ className = "", icon: Icon, label, value, suffix, delta, accent }) {
+function KpiCard({
+  className = "",
+  icon: Icon,
+  label,
+  value,
+  suffix,
+  delta,
+  accent,
+}) {
   return (
     <div
       className={`rounded-2xl p-5 border ${
@@ -261,7 +284,7 @@ function AreaChart() {
   const h = 140;
   const stepX = w / (SERIES.length - 1);
   const path = SERIES.map(
-    (p, i) => `${i === 0 ? "M" : "L"} ${i * stepX} ${h - (p / 100) * h}`
+    (p, i) => `${i === 0 ? "M" : "L"} ${i * stepX} ${h - (p / 100) * h}`,
   ).join(" ");
   const area = `${path} L ${w} ${h} L 0 ${h} Z`;
   return (

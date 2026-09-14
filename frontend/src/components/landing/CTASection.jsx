@@ -54,8 +54,8 @@ export function CTASection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-white/65 text-base sm:text-lg mt-5 max-w-xl mx-auto leading-relaxed"
         >
-          Upload your resume now. Get your ATS score, fixable issues, and AI rewrites
-          in under 15 seconds.
+          Upload your resume now. Get your ATS score, fixable issues, and AI
+          rewrites in under 15 seconds.
         </motion.p>
 
         <motion.div
@@ -81,7 +81,10 @@ export function CTASection() {
               }}
             />
             <span className="relative">Start free ATS analysis</span>
-            <ArrowRight size={15} className="relative group-hover:translate-x-0.5 transition-transform" />
+            <ArrowRight
+              size={15}
+              className="relative group-hover:translate-x-0.5 transition-transform"
+            />
           </Link>
 
           <Link

@@ -1,20 +1,21 @@
-import { Search, Sun, Moon } from "lucide-react";
+import { Menu, Search, Sun, Moon } from "lucide-react";
 import { IconButton } from "@/components/ui/IconButton";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
 import { NotificationsPopover } from "./NotificationsPopover";
 
-export function Topbar({ onOpenPalette }) {
+export function Topbar({ onOpenPalette, onOpenSidebar }) {
   const { theme, toggle } = useTheme();
   const { user } = useAuth();
   const firstName = user?.name?.split(" ")[0] || "there";
 
   const isMac =
-    typeof navigator !== "undefined" && /Mac|iPhone|iPad/i.test(navigator.platform);
+    typeof navigator !== "undefined" &&
+    /Mac|iPhone|iPad/i.test(navigator.platform);
 
   return (
-    <header className="flex items-start justify-between gap-6 mb-8">
-      <div>
+    <header className="flex flex-col md:flex-row items-start justify-between gap-4 md:gap-6 mb-6 sm:mb-8">
+      <div className="order-2 md:order-1 min-w-0">
         <h1 className="font-display text-[clamp(28px,3vw,38px)] font-semibold leading-tight text-[var(--ink)]">
           Hello, {firstName}.
         </h1>
@@ -23,7 +24,14 @@ export function Topbar({ onOpenPalette }) {
         </p>
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="order-1 md:order-2 flex w-full md:w-auto items-center justify-end gap-2 sm:gap-3 shrink-0 self-end">
+        <IconButton
+          onClick={onOpenSidebar}
+          title="Open navigation"
+          className="md:hidden mr-auto shrink-0"
+        >
+          <Menu size={18} />
+        </IconButton>
         <button
           type="button"
           onClick={onOpenPalette}

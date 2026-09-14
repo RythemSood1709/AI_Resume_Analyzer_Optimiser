@@ -186,7 +186,7 @@ export function HowItWorks() {
     >
       <SectionHeader
         eyebrow="How it works"
-        title={<>From upload to interview-ready in&nbsp;3 steps.</>}
+        title={<span className="text-black/70">From upload to interview-ready in&nbsp;3 steps.</span>}
         sub="No prompt engineering. No ten-step funnels. Drop, analyze, ship."
       />
 

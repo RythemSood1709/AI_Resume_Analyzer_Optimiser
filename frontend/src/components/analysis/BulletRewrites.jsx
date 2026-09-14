@@ -1,6 +1,11 @@
 import { useState, useMemo } from "react";
 import { ArrowRight, Loader2, Sparkles, Wand2, Info } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { cn } from "@/lib/utils";
@@ -25,7 +30,10 @@ function GradientNumber({ value, size = 32 }) {
 }
 
 export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
-  const ids = useMemo(() => rewrites.map((r) => r._id).filter(Boolean), [rewrites]);
+  const ids = useMemo(
+    () => rewrites.map((r) => r._id).filter(Boolean),
+    [rewrites],
+  );
   const [selected, setSelected] = useState(() => new Set(ids));
 
   const allSelected = selected.size === ids.length && ids.length > 0;
@@ -58,7 +66,9 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
         <CardHeader>
           <div>
             <CardTitle className="text-base">Suggested Rewrites</CardTitle>
-            <CardDescription className="mt-1">No rewrites suggested.</CardDescription>
+            <CardDescription className="mt-1">
+              No rewrites suggested.
+            </CardDescription>
           </div>
         </CardHeader>
       </Card>
@@ -142,8 +152,13 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button variant="outline" size="sm" onClick={toggleAll}>
+          <div className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleAll}
+              className="w-full sm:w-auto"
+            >
               {allSelected ? "Clear all" : "Select all"}
             </Button>
             <Button
@@ -151,6 +166,7 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
               size="sm"
               onClick={applySelected}
               disabled={!someSelected || isApplying}
+              className="w-full sm:w-auto"
             >
               {isApplying ? (
                 <Loader2 size={13} className="animate-spin" />
@@ -171,7 +187,7 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
                 size="sm"
                 onClick={applyAll}
                 disabled={isApplying}
-                className="!rounded-full"
+                className="!rounded-full w-full sm:w-auto"
               >
                 <Wand2 size={13} />
                 Apply all → new version
@@ -192,7 +208,7 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
                 "group relative rounded-2xl border p-5 transition-all",
                 isSelected
                   ? "border-[var(--accent)]/45 bg-[var(--accent-soft)]/35 shadow-card"
-                  : "border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)]/60"
+                  : "border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)]/60",
               )}
             >
               {/* Header row: number + section + selection state */}
@@ -216,7 +232,7 @@ export function BulletRewrites({ rewrites, onApply, isApplying, error }) {
                       "text-[11px] font-medium transition-colors",
                       isSelected
                         ? "text-[var(--accent-strong)]"
-                        : "text-[var(--ink-muted)]"
+                        : "text-[var(--ink-muted)]",
                     )}
                   >
                     {isSelected ? "Will apply" : "Skip"}

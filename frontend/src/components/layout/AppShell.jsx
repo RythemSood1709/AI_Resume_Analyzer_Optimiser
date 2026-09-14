@@ -8,9 +8,11 @@ import { CommandPalette } from "./CommandPalette";
 export function AppShell() {
   const location = useLocation();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const openPalette = useCallback(() => setPaletteOpen(true), []);
   const closePalette = useCallback(() => setPaletteOpen(false), []);
+  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -31,13 +33,34 @@ export function AppShell() {
   // close on route change
   useEffect(() => {
     setPaletteOpen(false);
-  }, [location.pathname]);
+    closeSidebar();
+  }, [closeSidebar, location.pathname]);
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === "Escape") closeSidebar();
+    }
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [closeSidebar]);
 
   return (
     <div className="min-h-screen flex bg-[var(--bg)]">
-      <Sidebar />
-      <main className="flex-1 px-6 md:px-8 py-6 max-w-[1600px] mx-auto w-full">
-        <Topbar onOpenPalette={openPalette} />
+      <Sidebar open={sidebarOpen} onClose={closeSidebar} />
+      {sidebarOpen && (
+        <button
+          type="button"
+          aria-label="Close navigation"
+          onClick={closeSidebar}
+          className="fixed inset-0 z-40 bg-black/25 md:hidden"
+        />
+      )}
+      <main className="flex-1 min-w-0 px-4 sm:px-6 md:px-8 py-4 sm:py-6 max-w-[1600px] mx-auto w-full">
+        <Topbar
+          onOpenPalette={openPalette}
+          onOpenSidebar={() => setSidebarOpen(true)}
+        />
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
