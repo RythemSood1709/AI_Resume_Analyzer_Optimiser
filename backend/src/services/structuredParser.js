@@ -233,9 +233,13 @@ async function parseResume(rawText) {
 
       const text =
         typeof result.text === "function" ? result.text() : result.text;
-      if (!text) throw new Error("Empty response");
+      if (!text?.trim()) {
+        const candidate = result.candidates?.[0];
+        throw new Error(
+          `Gemini returned no text (finishReason: ${candidate?.finishReason || "unknown"}, blockReason: ${result.promptFeedback?.blockReason || "none"})`,
+        );
+      }
       const parsed = JSON.parse(text);
-
 
       return validator.parse(parsed);
     } catch (err) {

@@ -159,7 +159,12 @@ async function callGemini(prompt) {
   });
 
   const text = typeof result.text === "function" ? result.text() : result.text;
-  if (!text) throw new Error("Empty Response from Gemini");
+  if (!text?.trim()) {
+    const candidate = result.candidates?.[0];
+    throw new Error(
+      `Gemini returned no text (finishReason: ${candidate?.finishReason || "unknown"}, blockReason: ${result.promptFeedback?.blockReason || "none"})`,
+    );
+  }
 
   return {
     text,
