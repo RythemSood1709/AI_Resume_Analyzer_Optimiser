@@ -128,7 +128,7 @@ export function Sidebar({ open = false, onClose }) {
               "group-hover/sidebar:opacity-100 group-hover/sidebar:translate-x-0 group-hover/sidebar:delay-100",
             )}
           >
-            Roaster
+            SINTESI.<span className="text-[var(--accent-strong)]">AI</span>
           </span>
           <button
             type="button"

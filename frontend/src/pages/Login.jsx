@@ -48,8 +48,11 @@ export default function Login() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="mb-12">
+        <div className="mb-12 flex items-center gap-2">
           <AILogo size={48} />
+          <div className="font-display text-[22px] font-semibold tracking-wide text-[var(--ink)] ml-2">
+            SINTESI.<span className="text-[var(--accent-strong)]">AI</span>
+          </div>
         </div>
 
         <h1 className="font-display text-[34px] font-semibold tracking-tight text-[var(--ink)] leading-[1.05]">

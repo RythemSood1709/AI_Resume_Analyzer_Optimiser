@@ -43,8 +43,8 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-4 px-3 sm:px-4 py-2">
           <Link to="/" className="flex items-center gap-2.5 pl-1">
             <AILogo />
-            <span className="font-display text-[15px] font-semibold tracking-tight text-[var(--ink)] hidden sm:inline">
-              Resume Roaster
+            <span className="font-display text-[15px] font-semibold tracking-widest text-[var(--ink)] hidden sm:inline">
+              SINTESI.<span className="text-[var(--accent-strong)]">AI</span>
             </span>
           </Link>
 

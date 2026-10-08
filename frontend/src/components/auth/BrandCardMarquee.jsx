@@ -83,7 +83,7 @@ function Footer({ subtitle, version }) {
       <div className="flex items-center gap-2">
         <AILogo size={24} animated={false} />
         <span className="text-[11px] font-medium text-gray-700">
-          {subtitle || "Resume Roaster"}
+          {subtitle || "SINTESI.AI"}
         </span>
       </div>
       {version && (
